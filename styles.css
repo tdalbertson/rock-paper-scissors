@@ -1,1 +1,47 @@
-    
+@font-face {
+    font-family: "Typo Round Regular";
+    src: url(fonts/Typo_Round_Regular_Demo.otf);
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: "Typo Round Regular", Arial, Helvetica, sans-serif;
+    background-color: rgba(255, 209, 223, 0.437);
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    font-size: 4rem;
+}
+
+.play-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.item-container {
+    width: calc(250px + 8rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.item-container img {
+    height: 250px;
+    width: 250px;
+}
+
+.player .paper {
+    align-self: flex-start;
+}
+
+.computer .paper {
+    align-self: flex-end;
+}
