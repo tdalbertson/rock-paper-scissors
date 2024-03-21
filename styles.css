@@ -26,6 +26,19 @@ h1 {
     justify-content: space-evenly;
 }
 
+.player > *:hover {
+    cursor: pointer;
+    border-radius: 50%;
+    border: 1px rgba(249, 111, 152, 0.969) solid;
+}
+
+.player > *:active {
+    cursor: pointer;
+    border-radius: 50%;
+    border: 1px rgba(249, 111, 152, 0.969) solid;
+    background-color: rgba(249, 111, 152, 0.969);
+}
+
 .item-container {
     width: calc(250px + 8rem);
     display: flex;
@@ -36,6 +49,8 @@ h1 {
 .item-container img {
     height: 250px;
     width: 250px;
+    border-radius: 50%;
+    border: 1px rgba(0, 0, 0, 0) solid;
 }
 
 .player .paper {
