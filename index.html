@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <script src="main.js"></script>
+        <script src="main.js" defer></script>
         <link rel="stylesheet" href="styles.css" />
         <title>Rock Paper Scissors</title>
     </head>
@@ -12,14 +12,41 @@
             <h1>Rock Paper Scissors</h1>
             <div class="play-wrapper">
                 <div class="item-container player">
-                    <img src="images/rock.png" alt="Rock hand icon" class="rock" />
-                    <img src="images/paper.png" alt="Paper hand icon" class="paper"/>
-                    <img src="images/scissors.png" alt="Scissors hand icon" class="scissors" />
+                    <img
+                        src="images/rock.png"
+                        alt="Rock hand icon"
+                        class="rock"
+                        data-value="rock"
+                    />
+                    <img
+                        src="images/paper.png"
+                        alt="Paper hand icon"
+                        class="paper"
+                        data-value="paper"
+                    />
+                    <img
+                        src="images/scissors.png"
+                        alt="Scissors hand icon"
+                        class="scissors"
+                        data-value="scissors"
+                    />
                 </div>
                 <div class="item-container computer">
-                    <img src="images/rock.png" alt="Rock hand icon" class="rock" />
-                    <img src="images/paper.png" alt="Paper hand icon" class="paper"/>
-                    <img src="images/scissors.png" alt="Scissors hand icon" class="scissors" />
+                    <img
+                        src="images/rock.png"
+                        alt="Rock hand icon"
+                        class="rock"
+                    />
+                    <img
+                        src="images/paper.png"
+                        alt="Paper hand icon"
+                        class="paper"
+                    />
+                    <img
+                        src="images/scissors.png"
+                        alt="Scissors hand icon"
+                        class="scissors"
+                    />
                 </div>
             </div>
         </main>
