@@ -17,25 +17,39 @@ function getComputerChoice() {
     }
 }
 
-// Take choices as strings and return the results
-function playRound(playerSelection, computerSelection) {
+// Take choices as strings and print the results
+function playRound(playerChoice, computerSelection) {
+    let playerSelection = playerChoice;
+    let computerChoice = computerSelection();
+
+    // Winning combination values
     const victories = {
         rock: ["scissors"],
         paper: ["rock"],
         scissors: ["paper"],
     };
 
-    if (playerSelection === computerSelection) {
-        return "Tie";
-    } else if (victories[playerSelection].includes(computerSelection)) {
-        return "Win";
+    if (playerSelection === computerChoice) {
+        console.log(`Player: ${playerSelection}\nComputer: ${computerChoice}\nTie`);
+    } else if (victories[playerSelection].includes(computerChoice)) {
+        console.log(`Player: ${playerSelection}\nComputer: ${computerChoice}\nWin`);
+        numOfWins++;
+        if (numOfWins == 5) {
+            console.log('You won!');
+        }
     } else {
-        return "Loss";
+        console.log(`Player: ${playerSelection}\nComputer: ${computerChoice}\nLoss`);
     }
 }
 
-const playerChoice = prompt(
-    'Choose "Rock", "Paper" or "Scissors":'
-).toLowerCase();
-const computerChoice = getComputerChoice();
-const result = playRound(playerChoice, computerChoice);
+// Play round when user clicks on rock, paper, or scissors icon
+const playerContainerItems = document.querySelector('.item-container.player');
+let numOfWins = 0;
+
+for (let i = 0; i < playerContainerItems.children.length; i++) {                        
+    playerContainerItems.children[i].addEventListener('click', (event) => {
+            const choice = event.target.getAttribute('data-value');
+            playRound(choice, getComputerChoice);
+        });
+    }
+
