@@ -30,26 +30,45 @@ function playRound(playerChoice, computerSelection) {
     };
 
     if (playerSelection === computerChoice) {
-        console.log(`Player: ${playerSelection}\nComputer: ${computerChoice}\nTie`);
+        console.log(
+            `Player: ${playerSelection}\nComputer: ${computerChoice}\nTie`
+        );
     } else if (victories[playerSelection].includes(computerChoice)) {
-        console.log(`Player: ${playerSelection}\nComputer: ${computerChoice}\nWin`);
+        console.log(
+            `Player: ${playerSelection}\nComputer: ${computerChoice}\nWin`
+        );
         numOfWins++;
         if (numOfWins == 5) {
-            console.log('You won!');
+            console.log("You won!");
         }
     } else {
-        console.log(`Player: ${playerSelection}\nComputer: ${computerChoice}\nLoss`);
+        console.log(
+            `Player: ${playerSelection}\nComputer: ${computerChoice}\nLoss`
+        );
+    }
+}
+
+function movePlayerChoice(playerItem, targetArea) {
+    const newItem = playerItem.cloneNode();
+    if (!targetArea.firstChild) {
+        playerItem.setAttribute(
+            "style",
+            'visibility: hidden;'
+        );
+        targetArea.append(newItem);
     }
 }
 
 // Play round when user clicks on rock, paper, or scissors icon
-const playerContainerItems = document.querySelector('.item-container.player');
+const playerContainerItems = document.querySelector(".item-container.player");
+const playerChoiceTarget = document.querySelector('.player-choice-target');
 let numOfWins = 0;
+let playerContainerObject = {};
 
-for (let i = 0; i < playerContainerItems.children.length; i++) {                        
-    playerContainerItems.children[i].addEventListener('click', (event) => {
-            const choice = event.target.getAttribute('data-value');
-            playRound(choice, getComputerChoice);
-        });
-    }
-
+for (let i = 0; i < playerContainerItems.children.length; i++) {
+    playerContainerItems.children[i].addEventListener("click", (event) => {
+        const choice = event.target.getAttribute("data-value");
+        playRound(choice, getComputerChoice);
+        movePlayerChoice(playerContainerItems.children[i], playerChoiceTarget);
+    });
+}
