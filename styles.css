@@ -20,6 +20,14 @@ h1 {
     font-size: 4rem;
 }
 
+.player-choice-target,
+.computer-choice-target {
+    width: 250px;
+    height: 250px;
+    border: 1px black solid;
+    align-self: center;
+}
+
 .play-wrapper {
     width: 100%;
     display: flex;
@@ -46,7 +54,15 @@ h1 {
     align-items: center;
 }
 
-.item-container img {
+.item-container.player {
+    margin-left: 10%;
+}
+
+.item-container.computer {
+    margin-right: 10%;
+}
+
+img {
     height: 250px;
     width: 250px;
     border-radius: 50%;
