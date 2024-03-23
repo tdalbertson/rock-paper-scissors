@@ -24,7 +24,6 @@ h1 {
 .computer-choice-target {
     width: 250px;
     height: 250px;
-    border: 1px black solid;
     align-self: center;
 }
 
@@ -55,11 +54,11 @@ h1 {
 }
 
 .item-container.player {
-    margin-left: 10%;
+    margin-left: 20%;
 }
 
 .item-container.computer {
-    margin-right: 10%;
+    margin-right: 20%;
 }
 
 img {
