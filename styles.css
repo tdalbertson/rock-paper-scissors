@@ -20,6 +20,23 @@ h1 {
     font-size: 4rem;
 }
 
+.target-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.targets {
+    display: flex;
+}
+
+.result {
+    position: absolute;
+    top: 25%;
+    font-size: 3rem;
+}
+
 .player-choice-target,
 .computer-choice-target {
     width: 250px;
