@@ -1,74 +1,67 @@
 // Choose computer's choice at random then return the choice as a string
 function getComputerChoice() {
-    const choices = ["rock", "paper", "scissors"];
+    const CHOICES = ["rock", "paper", "scissors"];
+    const MAX_VALUE = Math.floor(3);
+    const MIN_VALUE = Math.ceil(1);
+
     switch (
-        Math.floor(
-            Math.random() *
-                (Math.floor(3) /* Max */ - Math.ceil(1) /* Min */ + 1) +
-                Math.ceil(1) /* Min */
-        )
+        Math.floor(Math.random() * (MAX_VALUE - MIN_VALUE + 1) + MIN_VALUE)
     ) {
         case 1:
-            return choices[0];
+            return CHOICES[0];
         case 2:
-            return choices[1];
+            return CHOICES[1];
         case 3:
-            return choices[2];
+            return CHOICES[2];
     }
 }
 
-// Take choices as strings and print the results
-function playRound(playerChoice, computerSelection) {
-    let playerSelection = playerChoice;
-    let computerChoice = computerSelection();
-
-    // Winning combination values
-    const victories = {
+function playRound(choice) {
+    const VICTORIES = {
         rock: ["scissors"],
         paper: ["rock"],
         scissors: ["paper"],
     };
+    const result = document.querySelector(".result");
+    let computerChoice = getComputerChoice();
+    let computerItem = document.querySelector(`.computer > .${computerChoice}`);
 
-    if (playerSelection === computerChoice) {
-        console.log(
-            `Player: ${playerSelection}\nComputer: ${computerChoice}\nTie`
-        );
-    } else if (victories[playerSelection].includes(computerChoice)) {
-        console.log(
-            `Player: ${playerSelection}\nComputer: ${computerChoice}\nWin`
-        );
+    moveChoice(computerItem, computerChoiceTarget);
+
+    if (choice === computerChoice) {
+        result.textContent = "You tied!";
+    } else if (VICTORIES[choice].includes(computerChoice)) {
+        result.textContent = "You won!";
         numOfWins++;
-        if (numOfWins == 5) {
-            console.log("You won!");
+        if (numOfWins == MAX_WINS) {
+            console.log("You won the game!");
         }
     } else {
-        console.log(
-            `Player: ${playerSelection}\nComputer: ${computerChoice}\nLoss`
-        );
+        result.textContent = "You lost!";
     }
 }
 
-function movePlayerChoice(playerItem, targetArea) {
-    const newItem = playerItem.cloneNode();
+// Checks if a choice is already present then "move" choice to target area
+function moveChoice(item, targetArea) {
+    const newItem = item.cloneNode();
     if (!targetArea.firstChild) {
-        playerItem.setAttribute(
-            "style",
-            'visibility: hidden;'
-        );
+        item.setAttribute("style", "visibility: hidden;");
         targetArea.append(newItem);
     }
 }
 
-// Play round when user clicks on rock, paper, or scissors icon
-const playerContainerItems = document.querySelector(".item-container.player");
-const playerChoiceTarget = document.querySelector('.player-choice-target');
+const playerContainer = document.querySelector(".item-container.player");
+const playerContainerLength = playerContainer.children.length;
+const computerChoiceTarget = document.querySelector(".computer-choice-target");
+const playerChoiceTarget = document.querySelector(".player-choice-target");
+const MAX_WINS = 5;
 let numOfWins = 0;
-let playerContainerObject = {};
 
-for (let i = 0; i < playerContainerItems.children.length; i++) {
-    playerContainerItems.children[i].addEventListener("click", (event) => {
+// Play round when user clicks on rock, paper, or scissors icon
+for (let i = 0; i < playerContainerLength; i++) {
+    playerContainer.children[i].addEventListener("click", (event) => {
         const choice = event.target.getAttribute("data-value");
-        playRound(choice, getComputerChoice);
-        movePlayerChoice(playerContainerItems.children[i], playerChoiceTarget);
+        moveChoice(playerContainer.children[i], playerChoiceTarget);
+        playRound(choice);
     });
 }
