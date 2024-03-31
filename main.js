@@ -16,29 +16,12 @@ function getComputerChoice() {
     }
 }
 
-function playRound(choice) {
-    const VICTORIES = {
-        rock: ["scissors"],
-        paper: ["rock"],
-        scissors: ["paper"],
-    };
-    const result = document.querySelector(".result");
-    let computerChoice = getComputerChoice();
-    let computerItem = document.querySelector(`.computer > .${computerChoice}`);
+function playRound(playerChoice) {
+    const computerChoice = getComputerChoice();
+    const computerItem = document.querySelector(`.computer > .${computerChoice}`);
 
     moveChoice(computerItem, computerChoiceTarget);
-
-    if (choice === computerChoice) {
-        result.textContent = "You tied!";
-    } else if (VICTORIES[choice].includes(computerChoice)) {
-        result.textContent = "You won!";
-        numOfWins++;
-        if (numOfWins == MAX_WINS) {
-            console.log("You won the game!");
-        }
-    } else {
-        result.textContent = "You lost!";
-    }
+    compareChoices(playerChoice, computerChoice);
 }
 
 // Checks if a choice is already present then "move" choice to target area
@@ -50,18 +33,74 @@ function moveChoice(item, targetArea) {
     }
 }
 
-const playerContainer = document.querySelector(".item-container.player");
-const playerContainerLength = playerContainer.children.length;
+/* 
+    Game data property that contains a flag to indicate if a round has been played
+    User making a choice would change the flag to a true value
+    Check for this flag value after round has been played:
+    If true rest of function would not execute
+*/
+
+function compareChoices(playerChoice, computerChoice) {
+    const VICTORIES = {
+        rock: ["scissors"],
+        paper: ["rock"],
+        scissors: ["paper"],
+    };
+    const resultText = document.querySelector(".result");
+
+    clearTextContent(resultText);
+
+    if (playerChoice === computerChoice) {
+        resultText.innerText = 'You tied!';
+    } else if (VICTORIES[playerChoice].includes(computerChoice)) {
+        resultText.innerText = 'You won!';
+        numOfWins++;
+        if (numOfWins == MAX_WINS) {
+            console.log("You won the game!");
+        }
+    } else {
+        resultText.innerText = 'You lost!'; 
+    }
+}
+
+function clearTextContent() {
+    const resultText = document.querySelector(".result");
+    if (resultText.innerText.length > 0) {
+        resultText.innerText = '';
+    }
+} 
+
+
+const playerContainerChildren = document.querySelector(".item-container.player").children;
+const playerContainerLength = playerContainerChildren.length;
 const computerChoiceTarget = document.querySelector(".computer-choice-target");
 const playerChoiceTarget = document.querySelector(".player-choice-target");
 const MAX_WINS = 5;
 let numOfWins = 0;
 
 // Play round when user clicks on rock, paper, or scissors icon
-for (let i = 0; i < playerContainerLength; i++) {
-    playerContainer.children[i].addEventListener("click", (event) => {
+// for (let i = 0; i < playerContainerLength; i++) {
+//     playerContainerChildren[i].addEventListener("click", (event) => {
+//         const choice = event.target.getAttribute("data-value");
+//         moveChoice(playerContainerChildren[i], playerChoiceTarget);
+//         playRound(choice);
+//     });
+// }
+const gameData = {
+    "roundPlayed": false,
+};
+
+
+for (const child of playerContainerChildren) {
+    child.addEventListener("click", (event) => {
+        // Check for round has played flag here 
+        /*
+            if(!roundHasPlayed) {
+                run below code
+            }
+        */
         const choice = event.target.getAttribute("data-value");
-        moveChoice(playerContainer.children[i], playerChoiceTarget);
+        moveChoice(child, playerChoiceTarget);
         playRound(choice);
     });
 }
