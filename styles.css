@@ -1,3 +1,7 @@
+:root {
+    --pink-hover-border: rgba(249, 111, 152, 0.969);
+}
+
 @font-face {
     font-family: "Typo Round Regular";
     src: url(fonts/Typo_Round_Regular_Demo.otf);
@@ -33,7 +37,7 @@ h1 {
 
 .result {
     position: absolute;
-    top: 25%;
+    top: 20%;
     font-size: 3rem;
 }
 
@@ -42,6 +46,43 @@ h1 {
     width: 250px;
     height: 250px;
     align-self: center;
+}
+
+.buttons-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 7%;
+    gap: 1rem;
+    visibility: hidden;
+}
+
+.buttons-container button {
+    border: 3px rgb(96,17,85) solid;
+    border-radius: 5px;
+    background-color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1.3rem;
+    height: 60px;
+    transition: all 0.3s;
+    width: 250px;
+}
+
+/* Credit transform and transition idea from 
+https://codepen.io/evanscode/pen/KqWRyg */
+
+.buttons-container button:hover {
+    background-color: var(--pink-hover-border);
+    box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.4);
+    color: rgb(255, 255, 255);
+    border-color: black;
+    transform: scale(1.03);
+}
+
+.buttons-container button:active {
+    transform: scale(0.98);
+    background-color: #d93333;
 }
 
 .play-wrapper {
@@ -53,14 +94,14 @@ h1 {
 .player > *:hover {
     cursor: pointer;
     border-radius: 50%;
-    border: 1px rgba(249, 111, 152, 0.969) solid;
+    border: 1px var(--pink-hover-border) solid;
 }
 
 .player > *:active {
     cursor: pointer;
     border-radius: 50%;
-    border: 1px rgba(249, 111, 152, 0.969) solid;
-    background-color: rgba(249, 111, 152, 0.969);
+    border: 1px var(--pink-hover-border) solid;
+    background-color: var(--pink-hover-border);
 }
 
 .item-container {
