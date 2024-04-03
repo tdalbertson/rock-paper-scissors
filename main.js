@@ -10,6 +10,7 @@ const playerContainerChildren = document.querySelector(
 const playerContainerLength = playerContainerChildren.length;
 const computerChoiceTarget = document.querySelector(".computer-choice-target");
 const playerChoiceTarget = document.querySelector(".player-choice-target");
+const buttonContainer = document.querySelector(".buttons-container");
 const MAX_WINS = 5;
 
 const gameData = {
@@ -29,7 +30,7 @@ for (const child of playerContainerChildren) {
     });
 }
 
-// Main function for each round
+// Main function for each round played
 function playRound(playerChoice) {
     const computerChoice = getComputerChoice();
     const computerItem = document.querySelector(
@@ -39,6 +40,7 @@ function playRound(playerChoice) {
     moveChoice(computerItem, computerChoiceTarget);
     compareChoices(playerChoice, computerChoice);
     gameData.roundPlayed = true;
+    makeItemVisible(gameData.roundPlayed, buttonContainer);
 }
 
 // Checks if a choice is already present then "move" choice to target area
@@ -90,8 +92,6 @@ function compareChoices(playerChoice, computerChoice) {
         resultText.innerText = "You lost!";
         gameData.numOfLosses++;
     }
-
-    
 }
 
 function clearTextContent() {
@@ -101,4 +101,9 @@ function clearTextContent() {
     }
 }
 
+function makeItemVisible(gameStatus, item) {
+    if(gameStatus) {
+        item.style.visibility = "visible";
+    }
+}
 
