@@ -1,5 +1,5 @@
 :root {
-    --pink-hover-border: rgba(249, 111, 152, 0.969);
+    --button-hover-border-color: #FEDE55;
 }
 
 @font-face {
@@ -73,7 +73,7 @@ h1 {
 https://codepen.io/evanscode/pen/KqWRyg */
 
 .buttons-container button:hover {
-    background-color: var(--pink-hover-border);
+    background-color: var(--button-hover-border-color);
     box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.4);
     color: rgb(255, 255, 255);
     border-color: black;
@@ -82,7 +82,14 @@ https://codepen.io/evanscode/pen/KqWRyg */
 
 .buttons-container button:active {
     transform: scale(0.98);
-    background-color: #d93333;
+}
+
+#play-again-button:active {
+    background-color: #74DAE2;
+}
+
+#reset-button:active {
+    background-color: #EF5580;
 }
 
 .play-wrapper {
@@ -94,14 +101,14 @@ https://codepen.io/evanscode/pen/KqWRyg */
 .player > *:hover {
     cursor: pointer;
     border-radius: 50%;
-    border: 1px var(--pink-hover-border) solid;
+    border: 1px var(--button-hover-border-color) solid;
 }
 
 .player > *:active {
     cursor: pointer;
     border-radius: 50%;
-    border: 1px var(--pink-hover-border) solid;
-    background-color: var(--pink-hover-border);
+    border: 1px var(--button-hover-border-color) solid;
+    background-color: var(--button-hover-border-color);
 }
 
 .item-container {
