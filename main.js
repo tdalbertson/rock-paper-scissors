@@ -4,26 +4,64 @@
     Check for this flag value after round has been played:
     If true rest of function would not execute
 */
+const CHOICES = {
+  rock: 'rock',
+  paper: 'paper',
+  scissors: 'scissors',  
+};
+
+const VICTORIES = {
+    rock: ["scissors"],
+    paper: ["rock"],
+    scissors: ["paper"],
+};
+
 const playerContainerChildren = document.querySelector(
     ".item-container.player"
 ).children;
 const playerContainerLength = playerContainerChildren.length;
 const computerChoiceTarget = document.querySelector(".computer-choice-target");
 const playerChoiceTarget = document.querySelector(".player-choice-target");
-const buttonContainer = document.querySelector(".buttons-container");
+const gameControls = document.querySelector(".buttons-container");
+const nextRoundButton = document.querySelector("#next-round-button");
+const playAgainButton = document.querySelector("#play-again-button");
+const resultText = document.querySelector(".result");
 const MAX_WINS = 5;
+const roundPlayedEvent = new Event('roundPlayed');
 
 const gameData = {
     roundPlayed: false,
+    numOfRounds: 0,
     numOfWins: 0,
     numOfLosses: 0,
+    playerChoice: '',
+    computerChoice: '',
 };
+
+const gameAreaEventHandlers = {
+    'roundPlayed': () => {
+        gameControls.style.visibility = 'visible';
+    },
+    'click': (event) => {
+        if (event.target.id ==='next-round-button') {
+            resetGameArea(gameControls, playerChoiceTarget, computerChoiceTarget);
+        } else {
+            resetGameArea(gameControls, playerChoiceTarget, computerChoiceTarget);
+        }
+    }
+}
+
+for (const [eventType, handlerFunction] of Object.entries(gameAreaEventHandlers)) {
+    gameControls.addEventListener(eventType, handlerFunction);
+}
+
 
 // Click event listener to initiate playing a round
 for (const child of playerContainerChildren) {
     child.addEventListener("click", (event) => {
         if (!gameData.roundPlayed) {
             const choice = event.target.getAttribute("data-value");
+            gameData.playerChoice = choice;
             moveChoice(child, playerChoiceTarget);
             playRound(choice);
         }
@@ -37,10 +75,34 @@ function playRound(playerChoice) {
         `.computer > .${computerChoice}`
     );
 
+    // Round played
     moveChoice(computerItem, computerChoiceTarget);
     compareChoices(playerChoice, computerChoice);
+    // Add function to display gameData
     gameData.roundPlayed = true;
-    makeItemVisible(gameData.roundPlayed, buttonContainer);
+    
+    // Makes play again & reset buttons visible
+    gameControls.dispatchEvent(roundPlayedEvent);
+    /*
+        Both buttons will:
+        1. Remove items from target areas for player and computer
+        2. Make invisible player and computer items visible again
+        if (2a or 2b)
+            2a. User clicks on Play Again button
+                iv. gameData.numOfRounds is incremented by 1
+            2b. User clicks on Reset button
+                iv. gameData is reset:
+                    - numOfRounds, numOfWins, and numOfLosses
+                    is reset to 0
+    3. gameData.roundPlayed is set to false
+    */
+}
+
+function resetGameArea(controls, playerItem, computerItem) {
+    controls.setAttribute('style', '');
+    playerItem.removeChild(playerItem.children[0]);
+    computerItem.removeChild(computerItem.children[0]);
+    resultText.innerText = "";
 }
 
 // Checks if a choice is already present then "move" choice to target area
@@ -54,7 +116,6 @@ function moveChoice(item, targetArea) {
 
 // Choose computer's choice at random then return the choice as a string
 function getComputerChoice() {
-    const CHOICES = ["rock", "paper", "scissors"];
     const MAX_VALUE = Math.floor(3);
     const MIN_VALUE = Math.ceil(1);
 
@@ -62,22 +123,18 @@ function getComputerChoice() {
         Math.floor(Math.random() * (MAX_VALUE - MIN_VALUE + 1) + MIN_VALUE)
     ) {
         case 1:
-            return CHOICES[0];
+            gameData.computerChoice = CHOICES.rock;
+            return CHOICES.rock;
         case 2:
-            return CHOICES[1];
+            gameData.computerChoice = CHOICES.paper;
+            return CHOICES.paper;
         case 3:
-            return CHOICES[2];
+            gameData.computerChoice = CHOICES.scissors;
+            return CHOICES.scissors;
     }
 }
 
 function compareChoices(playerChoice, computerChoice) {
-    const VICTORIES = {
-        rock: ["scissors"],
-        paper: ["rock"],
-        scissors: ["paper"],
-    };
-    const resultText = document.querySelector(".result");
-
     clearTextContent(resultText);
 
     if (playerChoice === computerChoice) {
@@ -98,12 +155,6 @@ function clearTextContent() {
     const resultText = document.querySelector(".result");
     if (resultText.innerText.length > 0) {
         resultText.innerText = "";
-    }
-}
-
-function makeItemVisible(gameStatus, item) {
-    if(gameStatus) {
-        item.style.visibility = "visible";
     }
 }
 
