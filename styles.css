@@ -85,11 +85,11 @@ https://codepen.io/evanscode/pen/KqWRyg */
     transform: scale(0.98);
 }
 
-#play-again-button:active {
+#next-round-button:active {
     background-color: #74DAE2;
 }
 
-#reset-button:active {
+#play-again-button:active {
     background-color: #EF5580;
 }
 
@@ -99,10 +99,15 @@ https://codepen.io/evanscode/pen/KqWRyg */
     justify-content: space-evenly;
 }
 
+.player > * {
+    transition: all 0.3s;
+}
+
 .player > *:hover {
     cursor: pointer;
     border-radius: 50%;
     border: 1px #EF5580 solid;
+    transform: scale(1.03);
 }
 
 .player > *:active {
@@ -110,6 +115,7 @@ https://codepen.io/evanscode/pen/KqWRyg */
     border-radius: 50%;
     border: 1px var(--button-hover-border-color) solid;
     background-color: #EF5580;
+    transform: scale(0.98);
 }
 
 .item-container {
