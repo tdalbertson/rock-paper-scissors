@@ -29,7 +29,7 @@ const resultText = document.querySelector(".result");
 const MAX_WINS = 5;
 const roundPlayedEvent = new Event('roundPlayed');
 
-const gameData = {
+let gameData = {
     roundPlayed: false,
     numOfRounds: 0,
     numOfWins: 0,
@@ -43,10 +43,21 @@ const gameAreaEventHandlers = {
         gameControls.style.visibility = 'visible';
     },
     'click': (event) => {
-        if (event.target.id ==='next-round-button') {
-            resetGameArea(gameControls, playerChoiceTarget, computerChoiceTarget);
+        if (event.target.id === 'next-round-button') {
+            resetGameArea(gameControls, playerChoiceTarget, computerChoiceTarget, gameData.playerChoice, gameData.computerChoice);
+            gameData.roundPlayed = false;
+            gameData.playerChoice = '';
+            gameData.computerChoice = '';
         } else {
-            resetGameArea(gameControls, playerChoiceTarget, computerChoiceTarget);
+            resetGameArea(gameControls, playerChoiceTarget, computerChoiceTarget, gameData.playerChoice, gameData.computerChoice);
+            gameData = {
+                roundPlayed: false,
+                numOfRounds: 0,
+                numOfWins: 0,
+                numOfLosses: 0,
+                playerChoice: '',
+                computerChoice: '',
+            }
         }
     }
 }
@@ -54,7 +65,6 @@ const gameAreaEventHandlers = {
 for (const [eventType, handlerFunction] of Object.entries(gameAreaEventHandlers)) {
     gameControls.addEventListener(eventType, handlerFunction);
 }
-
 
 // Click event listener to initiate playing a round
 for (const child of playerContainerChildren) {
@@ -83,26 +93,17 @@ function playRound(playerChoice) {
     
     // Makes play again & reset buttons visible
     gameControls.dispatchEvent(roundPlayedEvent);
-    /*
-        Both buttons will:
-        1. Remove items from target areas for player and computer
-        2. Make invisible player and computer items visible again
-        if (2a or 2b)
-            2a. User clicks on Play Again button
-                iv. gameData.numOfRounds is incremented by 1
-            2b. User clicks on Reset button
-                iv. gameData is reset:
-                    - numOfRounds, numOfWins, and numOfLosses
-                    is reset to 0
-    3. gameData.roundPlayed is set to false
-    */
+    gameData.numOfRounds++;
 }
 
-function resetGameArea(controls, playerItem, computerItem) {
+function resetGameArea(controls, playerItem, computerItem, player_choice, computer_choice) {
     controls.setAttribute('style', '');
     playerItem.removeChild(playerItem.children[0]);
     computerItem.removeChild(computerItem.children[0]);
     resultText.innerText = "";
+
+    document.querySelector(`.player > img.${player_choice}`).attributeStyleMap.clear();
+    document.querySelector(`.computer > img.${computer_choice}`).attributeStyleMap.clear();
 }
 
 // Checks if a choice is already present then "move" choice to target area
@@ -157,4 +158,3 @@ function clearTextContent() {
         resultText.innerText = "";
     }
 }
-
