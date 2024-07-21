@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
         <script src="main.js" defer></script>
         <link rel="stylesheet" href="styles.css" />
         <title>Rock Paper Scissors</title>
@@ -10,6 +11,11 @@
     <body>
         <main>
             <h1>Rock Paper Scissors</h1>
+            <div class="game-stats">
+                <p id="wins">Wins: 0</p>
+                <p id="losses">Losses: 0</p>
+                <p id="ties">Ties: 0</p>
+            </div>
             <div class="play-wrapper">
                 <div class="item-container player">
                     <img
