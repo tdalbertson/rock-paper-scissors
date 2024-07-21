@@ -5,9 +5,9 @@
     If true rest of function would not execute
 */
 const CHOICES = {
-  rock: 'rock',
-  paper: 'paper',
-  scissors: 'scissors',  
+    rock: "rock",
+    paper: "paper",
+    scissors: "scissors",
 };
 
 const VICTORIES = {
@@ -27,42 +27,57 @@ const nextRoundButton = document.querySelector("#next-round-button");
 const playAgainButton = document.querySelector("#play-again-button");
 const resultText = document.querySelector(".result");
 const MAX_WINS = 5;
-const roundPlayedEvent = new Event('roundPlayed');
+const roundPlayedEvent = new Event("roundPlayed");
+const confettiSound = new Audio('/sounds/25\ confetti\ Sound\ effect.mp3')
 
 let gameData = {
     roundPlayed: false,
     numOfRounds: 0,
     numOfWins: 0,
     numOfLosses: 0,
-    playerChoice: '',
-    computerChoice: '',
+    playerChoice: "",
+    computerChoice: "",
 };
 
 const gameAreaEventHandlers = {
-    'roundPlayed': () => {
-        gameControls.style.visibility = 'visible';
+    roundPlayed: () => {
+        gameControls.style.visibility = "visible";
     },
-    'click': (event) => {
-        if (event.target.id === 'next-round-button') {
-            resetGameArea(gameControls, playerChoiceTarget, computerChoiceTarget, gameData.playerChoice, gameData.computerChoice);
+    click: (event) => {
+        if (event.target.id === "next-round-button") {
+            resetGameArea(
+                gameControls,
+                playerChoiceTarget,
+                computerChoiceTarget,
+                gameData.playerChoice,
+                gameData.computerChoice
+            );
             gameData.roundPlayed = false;
-            gameData.playerChoice = '';
-            gameData.computerChoice = '';
+            gameData.playerChoice = "";
+            gameData.computerChoice = "";
         } else {
-            resetGameArea(gameControls, playerChoiceTarget, computerChoiceTarget, gameData.playerChoice, gameData.computerChoice);
+            resetGameArea(
+                gameControls,
+                playerChoiceTarget,
+                computerChoiceTarget,
+                gameData.playerChoice,
+                gameData.computerChoice
+            );
             gameData = {
                 roundPlayed: false,
                 numOfRounds: 0,
                 numOfWins: 0,
                 numOfLosses: 0,
-                playerChoice: '',
-                computerChoice: '',
-            }
+                playerChoice: "",
+                computerChoice: "",
+            };
         }
-    }
-}
+    },
+};
 
-for (const [eventType, handlerFunction] of Object.entries(gameAreaEventHandlers)) {
+for (const [eventType, handlerFunction] of Object.entries(
+    gameAreaEventHandlers
+)) {
     gameControls.addEventListener(eventType, handlerFunction);
 }
 
@@ -90,20 +105,47 @@ function playRound(playerChoice) {
     compareChoices(playerChoice, computerChoice);
     // Add function to display gameData
     gameData.roundPlayed = true;
-    
+
     // Makes play again & reset buttons visible
     gameControls.dispatchEvent(roundPlayedEvent);
     gameData.numOfRounds++;
+
+    if (gameData.numOfWins === MAX_WINS) {
+        resultText.innerText = "You beat the game!";
+        const body = document.querySelector("body");
+
+        let canvas = document.createElement("canvas");
+        body.prepend(canvas);
+        let myConfetti = confetti.create(canvas);
+
+        confettiSound.play();
+        myConfetti({
+            particleCount: 3,
+            spread: 2,
+            origin: { y: 0.6 },
+            scalar: 0.25,
+        }).then(() => body.removeChild(canvas));
+    }
 }
 
-function resetGameArea(controls, playerItem, computerItem, player_choice, computer_choice) {
-    controls.setAttribute('style', '');
+function resetGameArea(
+    controls,
+    playerItem,
+    computerItem,
+    player_choice,
+    computer_choice
+) {
+    controls.setAttribute("style", "");
     playerItem.removeChild(playerItem.children[0]);
     computerItem.removeChild(computerItem.children[0]);
     resultText.innerText = "";
 
-    document.querySelector(`.player > img.${player_choice}`).attributeStyleMap.clear();
-    document.querySelector(`.computer > img.${computer_choice}`).attributeStyleMap.clear();
+    document
+        .querySelector(`.player > img.${player_choice}`)
+        .attributeStyleMap.clear();
+    document
+        .querySelector(`.computer > img.${computer_choice}`)
+        .attributeStyleMap.clear();
 }
 
 // Checks if a choice is already present then "move" choice to target area
