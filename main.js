@@ -71,6 +71,9 @@ const gameAreaEventHandlers = {
                 playerChoice: "",
                 computerChoice: "",
             };
+            updateStatsText("wins-count", gameData.numOfWins);
+            updateStatsText("loss-count", gameData.numOfLosses);
+            updateStatsText("round-count", gameData.numOfRounds);
         }
     },
 };
@@ -109,6 +112,7 @@ function playRound(playerChoice) {
     // Makes play again & reset buttons visible
     gameControls.dispatchEvent(roundPlayedEvent);
     gameData.numOfRounds++;
+    updateStatsText("round-count", gameData.numOfRounds);
 
     if (gameData.numOfWins === MAX_WINS) {
         resultText.innerText = "You beat the game!";
@@ -185,12 +189,14 @@ function compareChoices(playerChoice, computerChoice) {
     } else if (VICTORIES[playerChoice].includes(computerChoice)) {
         resultText.innerText = "You won!";
         gameData.numOfWins++;
+        updateStatsText("wins-count", gameData.numOfWins);
         if (gameData.numOfWins === MAX_WINS) {
             console.log("You won the game!");
         }
     } else {
         resultText.innerText = "You lost!";
         gameData.numOfLosses++;
+        updateStatsText("loss-count", gameData.numOfLosses);
     }
 }
 
@@ -199,4 +205,10 @@ function clearTextContent() {
     if (resultText.innerText.length > 0) {
         resultText.innerText = "";
     }
+}
+
+function updateStatsText(element, resultCount) {
+    const el = document.querySelector(`#${element}`);
+
+    el.innerText = resultCount;
 }
